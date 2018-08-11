@@ -2,7 +2,7 @@ import React from "react";
 import { TextInput, View, Text } from "react-native";
 
 export const TextField = props => {
-  const { label, value, onChangeText, placeholder } = props;
+  const { label, value, onChangeText, placeholder, secureTextEntry } = props;
   const { inputStyle, labelStyle, containerStyle } = styles;
 
   return (
@@ -13,6 +13,7 @@ export const TextField = props => {
         onChangeText={onChangeText}
         style={inputStyle}
         placeholder={placeholder}
+        secureTextEntry={secureTextEntry}
       />
     </View>
   );
@@ -25,12 +26,12 @@ const styles = {
     paddingLeft: 5,
     fontSize: 18,
     lineHeight: 23,
-    flex: 2.5
+    flex: 2
   },
   labelStyle: {
     fontSize: 18,
     paddingLeft: 20,
-    flex: 0.5
+    flex: 1
   },
   containerStyle: {
     hieght: 40,

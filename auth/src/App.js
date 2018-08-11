@@ -7,12 +7,19 @@ import LoginForm from "./component/LoginForm";
 
 export default class App extends Component {
   componentDidMount() {
+    const {
+      apiKey,
+      authDomain,
+      databaseURL,
+      storageBucket,
+      messagingSenderId
+    } = secret;
     firebase.initializeApp({
-      apiKey: secret.apiKey,
-      authDomain: secret.authDomain,
-      databaseURL: secret.databaseURL,
-      storageBucket: secret.storageBucket,
-      messagingSenderId: secret.messagingSenderId
+      apiKey,
+      authDomain,
+      databaseURL,
+      storageBucket,
+      messagingSenderId
     });
   }
   render() {

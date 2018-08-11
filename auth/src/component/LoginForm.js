@@ -5,7 +5,8 @@ export default class LoginForm extends Component {
   constructor() {
     super();
     this.state = {
-      email: ""
+      email: "",
+      password: ""
     };
   }
   render() {
@@ -21,7 +22,14 @@ export default class LoginForm extends Component {
           />
         </CardItem>
         <CardItem>
-          <Button>Log In</Button>
+          <TextField
+            onChangeText={password => this.setState({ password })}
+            value={this.state.password}
+            label="Password"
+            autoCorrect={false}
+            placeholder="password"
+            secureTextEntry
+          />
         </CardItem>
         <CardItem>
           <Button>Log In</Button>
