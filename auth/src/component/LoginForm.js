@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import firebase from "firebase";
 import { Text } from "react-native";
-import { Button, Card, CardItem, TextField } from "./common";
+import { Button, Card, CardItem, TextField, Spinner } from "./common";
 
 export default class LoginForm extends Component {
   constructor() {
@@ -9,27 +9,43 @@ export default class LoginForm extends Component {
     this.state = {
       email: "",
       password: "",
-      error: ""
+      error: "",
+      loading: false
     };
   }
 
   onButtonPress() {
     const { email, password } = this.state;
-    this.setState({ error: "" });
+    this.setState({ error: "", loading: true });
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
+      .then(this.onLoginSuccess.bind(this))
       .catch(() => {
         firebase
           .auth()
           .createUserWithEmailAndPassword(email, password)
-          .catch(() => {
-            this.setState({ error: "Authentication Failed" });
-          });
+          .then(this.onLoginSuccess.bind(this))
+          .catch(this.onLoginFail.bind(this));
       });
   }
 
+  onLoginSuccess() {
+    this.setState({ email: "", password: "", loading: false });
+  }
+
+  onLoginFail() {
+    this.setState({ error: "Authentication Failed", loading: false });
+  }
+
   render() {
+    let loading;
+    if (this.state.loading) {
+      loading = <Spinner size="small" />;
+    } else {
+      loading = <Button onPress={this.onButtonPress.bind(this)}>Log In</Button>;
+    }
+
     return (
       <Card>
         <CardItem>
@@ -52,9 +68,7 @@ export default class LoginForm extends Component {
           />
         </CardItem>
         <Text style={styles.errorTextStyle}>{this.state.error}</Text>
-        <CardItem>
-          <Button onPress={this.onButtonPress.bind(this)}>Log In</Button>
-        </CardItem>
+        <CardItem>{loading}</CardItem>
       </Card>
     );
   }
