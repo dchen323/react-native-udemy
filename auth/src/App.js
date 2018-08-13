@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
-import { Header, Button, Spinner, Card } from "./component/common";
+import { Header, Button, Spinner, CardItem } from "./component/common";
 import firebase from "firebase";
 import secret from "./config/secret";
 import LoginForm from "./component/LoginForm";
@@ -38,17 +38,23 @@ export default class App extends Component {
 
   renderContent() {
     if (this.state.loggedIn) {
-      return <Button onPress={() => firebase.auth().signOut()}>Log Out</Button>;
+      return (
+        <CardItem>
+          <Button onPress={() => firebase.auth().signOut()}>Log Out</Button>
+        </CardItem>
+      );
     } else if (this.state.loggedIn === null) {
-      return <Spinner size="large" />;
+      return (
+        <CardItem>
+          <Spinner size="large" />
+        </CardItem>
+      );
     } else {
       return <LoginForm />;
     }
   }
 
   render() {
-    let loggedIn;
-
     return (
       <View>
         <Header headerText="Authentication" />
