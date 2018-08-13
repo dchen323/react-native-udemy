@@ -4,10 +4,11 @@ import { CardItem } from "./common";
 
 export default class ListItem extends Component {
   render() {
+    const { title } = this.props.library.item;
     const { titleStyle } = styles;
     return (
       <CardItem>
-        <Text style={titleStyle}>{this.props.library.item.title}</Text>
+        <Text style={titleStyle}>{title}</Text>
       </CardItem>
     );
   }
