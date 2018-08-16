@@ -4,7 +4,7 @@ import {
   LOGIN_USER,
   LOGIN_FAIL,
   LOADING
-} from "../actions";
+} from "../actions/AuthActions";
 
 const initialState = { email: "", password: "", user: null, loading: false };
 
