@@ -1,4 +1,5 @@
 import firebase from "firebase";
+import { Actions } from "react-native-router-flux";
 
 export const EMAIL_CHANGED = "EMAIL_CHANGED";
 export const PASSWORD_CHANGED = "PASSWORD_CHANGED";
@@ -16,10 +17,13 @@ export const passwordChanged = text => ({
   payload: text
 });
 
-const loginUserSuccess = user => ({
-  type: LOGIN_USER,
-  payload: user
-});
+const loginUserSuccess = user => {
+  Actions.main();
+  return {
+    type: LOGIN_USER,
+    payload: user
+  };
+};
 
 const loginUserFail = () => ({
   type: LOGIN_FAIL,
