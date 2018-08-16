@@ -4,6 +4,7 @@ export const EMAIL_CHANGED = "EMAIL_CHANGED";
 export const PASSWORD_CHANGED = "PASSWORD_CHANGED";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGIN_FAIL = "LOGIN_FAIL";
+export const LOADING = "LOADING";
 
 export const emailChanged = text => ({
   type: EMAIL_CHANGED,
@@ -25,7 +26,8 @@ const loginUserFail = () => ({
   payload: "Authentication Failed"
 });
 
-export const loginUser = ({ email, password }) => dispatch =>
+export const loginUser = ({ email, password }) => dispatch => {
+  dispatch({ type: LOADING });
   firebase
     .auth()
     .signInWithEmailAndPassword(email, password)
@@ -37,3 +39,4 @@ export const loginUser = ({ email, password }) => dispatch =>
         .then(user => dispatch(loginUserSuccess(user)))
         .catch(() => dispatch(loginUserFail()));
     });
+};
