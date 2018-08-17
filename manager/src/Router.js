@@ -8,6 +8,9 @@ export default () => {
   return (
     <Router>
       <Scene key="root" hideNavBar>
+        <Scene key="auth">
+          <Scene key="login" component={LoginForm} title="Login" intial />
+        </Scene>
         <Scene key="main">
           <Scene
             rightTitle="Add"
@@ -22,9 +25,6 @@ export default () => {
             component={EmployeeCreate}
             title="Create Employee"
           />
-        </Scene>
-        <Scene key="auth">
-          <Scene key="login" component={LoginForm} title="Login" intial />
         </Scene>
       </Scene>
     </Router>
