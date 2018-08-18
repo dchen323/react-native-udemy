@@ -50,7 +50,6 @@ class LoginForm extends Component {
   }
 
   render() {
-    console.log(this.props.error);
     return (
       <Card>
         <CardItem>
