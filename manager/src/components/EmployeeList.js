@@ -27,7 +27,6 @@ class EmployeeList extends Component {
   }
 
   render() {
-    console.log(this.props.employees);
     if (!this.dataSource) {
       this.createDataSource(this.props);
     }

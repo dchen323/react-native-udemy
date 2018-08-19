@@ -1,23 +1,48 @@
 import React, { Component } from "react";
-import { Picker, Text } from "react-native";
+import { Picker, Text, View } from "react-native";
 import { connect } from "react-redux";
 import { updateEmployee, createEmployee } from "../actions/EmployeeActions";
 import { Card, CardItem, TextField, Button } from "./common";
 
 class EmployeeCreate extends Component {
-  onButtonPress() {
+  addEmployee() {
     const { name, phone, shift } = this.props;
-
     this.props.createEmployee({ name, phone, shift });
   }
+
+  editEmployee() {}
+
+  deleteEmployee() {}
+
   render() {
+    let name, phone, shift, button;
+    if (this.props.employee) {
+      name = this.props.employee.name;
+      phone = this.props.employee.phone;
+      shift = this.props.employee.shift;
+      button = (
+        <CardItem>
+          <Button onPress={this.editEmployee.bind(this)}>Update</Button>
+          <Button onPress={this.deleteEmployee.bind(this)}>Delete</Button>
+        </CardItem>
+      );
+    } else {
+      name = this.props.name;
+      phone = this.props.phone;
+      shift = this.props.shift;
+      button = (
+        <CardItem>
+          <Button onPress={this.addEmployee.bind(this)}>Create</Button>
+        </CardItem>
+      );
+    }
     return (
       <Card>
         <CardItem>
           <TextField
             label="Name"
             placeholder="Mike"
-            value={this.props.name}
+            value={name}
             onChangeText={text =>
               this.props.updateEmployee({ prop: "name", value: text })
             }
@@ -27,7 +52,7 @@ class EmployeeCreate extends Component {
           <TextField
             label="Phone"
             placeholder="281-330-8004"
-            value={this.props.phone}
+            value={phone}
             onChangeText={text =>
               this.props.updateEmployee({ prop: "phone", value: text })
             }
@@ -36,7 +61,7 @@ class EmployeeCreate extends Component {
         <CardItem style={{ flexDirection: "column" }}>
           <Text style={styles.pickerTextStyle}>Shift</Text>
           <Picker
-            selectedValue={this.props.shift}
+            selectedValue={shift}
             onValueChange={day =>
               this.props.updateEmployee({ prop: "shift", value: day })
             }
@@ -51,9 +76,7 @@ class EmployeeCreate extends Component {
             <Picker.Item label="Sunday" value="Sunday" />
           </Picker>
         </CardItem>
-        <CardItem>
-          <Button onPress={this.onButtonPress.bind(this)}>Create</Button>
-        </CardItem>
+        {button}
       </Card>
     );
   }

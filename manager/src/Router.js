@@ -17,13 +17,13 @@ export default () => {
             onRight={() => Actions.createEmployee()}
             key="employeeList"
             component={EmployeeList}
-            title="Employees"
+            title="Employees List"
             initial
           />
           <Scene
             key="createEmployee"
             component={EmployeeCreate}
-            title="Create Employee"
+            title="Employee"
           />
         </Scene>
       </Scene>
