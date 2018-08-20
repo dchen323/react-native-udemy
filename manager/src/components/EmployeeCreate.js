@@ -2,8 +2,12 @@ import React, { Component } from "react";
 import { Picker, Text, View } from "react-native";
 import { text } from "react-native-communications";
 import { connect } from "react-redux";
-import { createEmployee, udpateEmployee } from "../actions/EmployeeActions";
-import { Card, CardItem, TextField, Button } from "./common";
+import {
+  createEmployee,
+  udpateEmployee,
+  deleteEmployee
+} from "../actions/EmployeeActions";
+import { Card, CardItem, TextField, Button, Confirm } from "./common";
 
 class EmployeeCreate extends Component {
   constructor(props) {
@@ -12,7 +16,8 @@ class EmployeeCreate extends Component {
       name: this.props.name,
       phone: this.props.phone,
       shift: this.props.shift,
-      uid: ""
+      uid: "",
+      showModal: false
     };
   }
   addEmployee() {
@@ -35,7 +40,15 @@ class EmployeeCreate extends Component {
     text(phone, `Your upcoming shift is on ${shift}`);
   }
 
-  deleteEmployee() {}
+  fireEmployee() {
+    this.props.deleteEmployee({
+      uid: this.props.employee.uid
+    });
+  }
+
+  closeModal() {
+    this.setState({ showModal: false });
+  }
 
   render() {
     const { name, phone, shift } = this.state;
@@ -48,7 +61,13 @@ class EmployeeCreate extends Component {
             <Button onPress={this.textEmployee.bind(this)}>Text</Button>
           </CardItem>
           <CardItem>
-            <Button onPress={this.deleteEmployee.bind(this)}>Delete</Button>
+            <Button
+              onPress={() =>
+                this.setState({ showModal: !this.state.showModal })
+              }
+            >
+              Fire
+            </Button>
           </CardItem>
         </Card>
       );
@@ -94,6 +113,13 @@ class EmployeeCreate extends Component {
           </Picker>
         </CardItem>
         {button}
+        <Confirm
+          visible={this.state.showModal}
+          onAccept={this.fireEmployee.bind(this)}
+          onDecline={this.closeModal.bind(this)}
+        >
+          Are you sure you want to fire this employee?
+        </Confirm>
       </Card>
     );
   }
@@ -138,6 +164,7 @@ export default connect(
   mapStateToProps,
   {
     createEmployee,
-    udpateEmployee
+    udpateEmployee,
+    deleteEmployee
   }
 )(EmployeeCreate);

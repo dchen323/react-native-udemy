@@ -1,9 +1,9 @@
 import firebase from "firebase";
 import { Actions } from "react-native-router-flux";
 
-export const UPDATE_TEXT = "UPDATE_TEXT";
 export const CREATE_EMPLOYEE = "CREATE_EMPLOYEE";
 export const FETCH_EMPLOYEES = "FETCH_EMPLOYEES";
+export const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
 
 export const fetchEmployees = () => dispatch => {
   const { currentUser } = firebase.auth();
@@ -33,5 +33,14 @@ export const udpateEmployee = ({ name, phone, shift, uid }) => dispatch => {
     .database()
     .ref(`/users/${currentUser.uid}/employees/${uid}`)
     .set({ name, phone, shift })
+    .then(() => Actions.employeeList());
+};
+
+export const deleteEmployee = ({ uid }) => dispatch => {
+  const { currentUser } = firebase.auth();
+  firebase
+    .database()
+    .ref(`/users/${currentUser.uid}/employees/${uid}`)
+    .remove()
     .then(() => Actions.employeeList());
 };
