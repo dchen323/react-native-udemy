@@ -15,11 +15,6 @@ export const fetchEmployees = () => dispatch => {
     });
 };
 
-export const updateText = ({ prop, value }) => ({
-  type: UPDATE_TEXT,
-  payload: { prop, value }
-});
-
 export const createEmployee = ({ name, phone, shift }) => dispatch => {
   const { currentUser } = firebase.auth();
   firebase
@@ -37,5 +32,6 @@ export const udpateEmployee = ({ name, phone, shift, uid }) => dispatch => {
   firebase
     .database()
     .ref(`/users/${currentUser.uid}/employees/${uid}`)
-    .set({ name, phone, shift });
+    .set({ name, phone, shift })
+    .then(() => Actions.employeeList());
 };

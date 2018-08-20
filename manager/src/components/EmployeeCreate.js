@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import { Picker, Text, View } from "react-native";
+import { text } from "react-native-communications";
 import { connect } from "react-redux";
-import {
-  updateText,
-  createEmployee,
-  udpateEmployee
-} from "../actions/EmployeeActions";
+import { createEmployee, udpateEmployee } from "../actions/EmployeeActions";
 import { Card, CardItem, TextField, Button } from "./common";
 
 class EmployeeCreate extends Component {
@@ -33,6 +30,11 @@ class EmployeeCreate extends Component {
     });
   }
 
+  textEmployee() {
+    const { phone, shift } = this.state;
+    text(phone, `Your upcoming shift is on ${shift}`);
+  }
+
   deleteEmployee() {}
 
   render() {
@@ -40,10 +42,15 @@ class EmployeeCreate extends Component {
     let button;
     if (this.props.employee) {
       button = (
-        <CardItem>
-          <Button onPress={this.editEmployee.bind(this)}>Update</Button>
-          <Button onPress={this.deleteEmployee.bind(this)}>Delete</Button>
-        </CardItem>
+        <Card style={styles.containerStyle}>
+          <CardItem>
+            <Button onPress={this.editEmployee.bind(this)}>Update</Button>
+            <Button onPress={this.textEmployee.bind(this)}>Text</Button>
+          </CardItem>
+          <CardItem>
+            <Button onPress={this.deleteEmployee.bind(this)}>Delete</Button>
+          </CardItem>
+        </Card>
       );
     } else {
       button = (
@@ -96,6 +103,20 @@ const styles = {
   pickerTextStyle: {
     fontSize: 18,
     paddingLeft: 20
+  },
+  containerStyle: {
+    borderWidth: 1,
+    borderRadius: 2,
+    borderColor: "#ddd",
+    borderBottomWidth: 0,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 1,
+    marginLeft: 0.5,
+    marginRight: 0.5,
+    marginTop: 0.5
   }
 };
 
@@ -116,7 +137,6 @@ const mapStateToProps = (state, ownProps) => {
 export default connect(
   mapStateToProps,
   {
-    updateText,
     createEmployee,
     udpateEmployee
   }
