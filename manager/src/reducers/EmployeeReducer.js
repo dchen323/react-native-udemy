@@ -12,8 +12,6 @@ export default (state = initialState, action) => {
       return { ...state, [action.payload.prop]: action.payload.value };
     case CREATE_EMPLOYEE:
       return initialState;
-    case FETCH_EMPLOYEES:
-      return initialState;
     default:
       return state;
   }

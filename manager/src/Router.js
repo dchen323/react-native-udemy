@@ -14,10 +14,7 @@ export default () => {
         <Scene key="main">
           <Scene
             rightTitle="Add"
-            onRight={() => {
-              const employee = { name: "", phone: "", shift: "" };
-              Actions.createEmployee({ employee });
-            }}
+            onRight={() => Actions.createEmployee()}
             key="employeeList"
             component={EmployeeList}
             title="Employees List"

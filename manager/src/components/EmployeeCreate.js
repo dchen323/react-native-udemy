@@ -1,18 +1,31 @@
 import React, { Component } from "react";
 import { Picker, Text, View } from "react-native";
 import { connect } from "react-redux";
-import { updateText, createEmployee } from "../actions/EmployeeActions";
+import {
+  updateText,
+  createEmployee,
+  udpateEmployee
+} from "../actions/EmployeeActions";
 import { Card, CardItem, TextField, Button } from "./common";
 
 class EmployeeCreate extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: this.props.name,
+      phone: this.props.phone,
+      shift: this.props.shift,
+      uid: ""
+    };
+  }
   addEmployee() {
-    const { name, phone, shift } = this.props;
+    const { name, phone, shift } = this.state;
     this.props.createEmployee({ name, phone, shift });
   }
 
   editEmployee() {
-    const { name, phone, shift } = this.props;
-    this.props.updateText({
+    const { name, phone, shift } = this.state;
+    this.props.udpateEmployee({
       name,
       phone,
       shift,
@@ -23,12 +36,9 @@ class EmployeeCreate extends Component {
   deleteEmployee() {}
 
   render() {
-    console.log(this.props);
-    let name, phone, shift, button;
+    const { name, phone, shift } = this.state;
+    let button;
     if (this.props.employee) {
-      name = this.props.employee.name;
-      phone = this.props.employee.phone;
-      shift = this.props.employee.shift;
       button = (
         <CardItem>
           <Button onPress={this.editEmployee.bind(this)}>Update</Button>
@@ -36,9 +46,6 @@ class EmployeeCreate extends Component {
         </CardItem>
       );
     } else {
-      name = this.props.name;
-      phone = this.props.phone;
-      shift = this.props.shift;
       button = (
         <CardItem>
           <Button onPress={this.addEmployee.bind(this)}>Create</Button>
@@ -52,9 +59,7 @@ class EmployeeCreate extends Component {
             label="Name"
             placeholder="Mike"
             value={name}
-            onChangeText={text =>
-              this.props.updateText({ prop: "name", value: text })
-            }
+            onChangeText={name => this.setState({ name })}
           />
         </CardItem>
         <CardItem>
@@ -62,18 +67,14 @@ class EmployeeCreate extends Component {
             label="Phone"
             placeholder="281-330-8004"
             value={phone}
-            onChangeText={text =>
-              this.props.updateText({ prop: "phone", value: text })
-            }
+            onChangeText={phone => this.setState({ phone })}
           />
         </CardItem>
         <CardItem style={{ flexDirection: "column" }}>
           <Text style={styles.pickerTextStyle}>Shift</Text>
           <Picker
             selectedValue={shift}
-            onValueChange={day =>
-              this.props.updateText({ prop: "shift", value: day })
-            }
+            onValueChange={shift => this.setState({ shift })}
           >
             <Picker.Item label="None" value="None" />
             <Picker.Item label="Monday" value="Monday" />
@@ -98,8 +99,17 @@ const styles = {
   }
 };
 
-const mapStateToProps = state => {
-  const { name, phone, shift } = state.employee;
+const mapStateToProps = (state, ownProps) => {
+  let name, phone, shift;
+  if (ownProps.employee) {
+    name = ownProps.employee.name;
+    phone = ownProps.employee.phone;
+    shift = ownProps.employee.shift;
+  } else {
+    name = state.employee.name;
+    phone = state.employee.phone;
+    shift = state.employee.shift;
+  }
   return { name, phone, shift };
 };
 
@@ -107,6 +117,7 @@ export default connect(
   mapStateToProps,
   {
     updateText,
-    createEmployee
+    createEmployee,
+    udpateEmployee
   }
 )(EmployeeCreate);

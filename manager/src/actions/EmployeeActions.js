@@ -31,3 +31,11 @@ export const createEmployee = ({ name, phone, shift }) => dispatch => {
       Actions.pop();
     });
 };
+
+export const udpateEmployee = ({ name, phone, shift, uid }) => dispatch => {
+  const { currentUser } = firebase.auth();
+  firebase
+    .database()
+    .ref(`/users/${currentUser.uid}/employees/${uid}`)
+    .set({ name, phone, shift });
+};
