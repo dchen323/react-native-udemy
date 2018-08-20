@@ -1,7 +1,7 @@
 import firebase from "firebase";
 import { Actions } from "react-native-router-flux";
 
-export const UPDATE_EMPLOYEE = "UPDATE_EMPLOYEE";
+export const UPDATE_TEXT = "UPDATE_TEXT";
 export const CREATE_EMPLOYEE = "CREATE_EMPLOYEE";
 export const FETCH_EMPLOYEES = "FETCH_EMPLOYEES";
 
@@ -15,8 +15,8 @@ export const fetchEmployees = () => dispatch => {
     });
 };
 
-export const updateEmployee = ({ prop, value }) => ({
-  type: UPDATE_EMPLOYEE,
+export const updateText = ({ prop, value }) => ({
+  type: UPDATE_TEXT,
   payload: { prop, value }
 });
 

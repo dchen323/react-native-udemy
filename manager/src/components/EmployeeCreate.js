@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Picker, Text, View } from "react-native";
 import { connect } from "react-redux";
-import { updateEmployee, createEmployee } from "../actions/EmployeeActions";
+import { updateText, createEmployee } from "../actions/EmployeeActions";
 import { Card, CardItem, TextField, Button } from "./common";
 
 class EmployeeCreate extends Component {
@@ -10,11 +10,20 @@ class EmployeeCreate extends Component {
     this.props.createEmployee({ name, phone, shift });
   }
 
-  editEmployee() {}
+  editEmployee() {
+    const { name, phone, shift } = this.props;
+    this.props.updateText({
+      name,
+      phone,
+      shift,
+      uid: this.props.employee.uid
+    });
+  }
 
   deleteEmployee() {}
 
   render() {
+    console.log(this.props);
     let name, phone, shift, button;
     if (this.props.employee) {
       name = this.props.employee.name;
@@ -44,7 +53,7 @@ class EmployeeCreate extends Component {
             placeholder="Mike"
             value={name}
             onChangeText={text =>
-              this.props.updateEmployee({ prop: "name", value: text })
+              this.props.updateText({ prop: "name", value: text })
             }
           />
         </CardItem>
@@ -54,7 +63,7 @@ class EmployeeCreate extends Component {
             placeholder="281-330-8004"
             value={phone}
             onChangeText={text =>
-              this.props.updateEmployee({ prop: "phone", value: text })
+              this.props.updateText({ prop: "phone", value: text })
             }
           />
         </CardItem>
@@ -63,7 +72,7 @@ class EmployeeCreate extends Component {
           <Picker
             selectedValue={shift}
             onValueChange={day =>
-              this.props.updateEmployee({ prop: "shift", value: day })
+              this.props.updateText({ prop: "shift", value: day })
             }
           >
             <Picker.Item label="None" value="None" />
@@ -97,7 +106,7 @@ const mapStateToProps = state => {
 export default connect(
   mapStateToProps,
   {
-    updateEmployee,
+    updateText,
     createEmployee
   }
 )(EmployeeCreate);
